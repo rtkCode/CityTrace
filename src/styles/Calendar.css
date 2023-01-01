@@ -1,0 +1,40 @@
+.rdp {
+    --rdp-accent-color: #ff4d4d;
+    --rdp-background-color: #e7edff;
+  }
+
+.calendar-text {
+    margin: 5.6px;
+    color: #4e4e4e;
+}
+
+.calendar-button-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 16px 16px 16px;
+}
+
+.calendar-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 45%;
+    height: 40px;
+    background: #ff4d4d;
+    color: #ffffff;
+    border-radius: 30px;
+    cursor: pointer;
+}
+
+.calendar-button:hover {
+    background: #ff1a1a;
+}
+
+.calendar-button-alldate {
+    background: #ff8080
+}
+
+.calendar-button-alldate:hover {
+    background: #ff4d4d;
+}
