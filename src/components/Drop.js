@@ -1,6 +1,8 @@
 import { useState, useEffect, useRef } from "react"
 import { FileUploader } from "react-drag-drop-files";
 
+import "../styles/Drop.css"
+
 export default function Drop(props) {
     const handleChange = (file) => {
         const fileReader = new FileReader();
@@ -14,7 +16,13 @@ export default function Drop(props) {
     };
 
     return (
-        <FileUploader handleChange={handleChange} name="file" types={["JSON"]} />
+        <div className="drop-container">
+            <p>1. Extract <code>Geo.json</code> by <a href="https://github.com/rtkCode/extract-EXIF-GeoJSON" target="_blank" className="link">extract-EXIF-GeoJSON</a></p>
+            <p>2. For personal use, you can move <code>Geo.json</code> into <code>public/data</code> directory.</p>
+            <p>3. If this project is a public deployed, please import the JSON file.</p>
+            <FileUploader classes="drop-zone" handleChange={handleChange} name="file" types={["JSON"]} label="Import or drop a file right here" hoverTitle="" />
+            <small>CityTrace will not store your information.</small>
+        </div>
     );
 
 }

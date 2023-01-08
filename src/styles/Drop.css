@@ -1,0 +1,32 @@
+.drop-container {
+    width: 312px;
+    height: 423px;
+    padding: 16px;
+    box-sizing: border-box;
+    font-size: 14px;
+    color: #4e5054;
+}
+
+.drop-zone svg, .drop-zone .file-types {
+    display: none;
+}
+
+.drop-zone div {
+    justify-content: center;
+}
+
+.drop-zone {
+    width: 100%;
+    max-width: 100% !important;
+    min-width: 100% !important;
+    height: 200px !important;
+    padding: 0 !important;
+    box-sizing: border-box;
+    border-radius: 4.8px !important;
+    border: dashed 2px #dee0e5 !important;
+    margin-bottom: 4px;
+}
+
+.link {
+    color: #ff4d4d;
+}
