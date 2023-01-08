@@ -1,14 +1,14 @@
 import { useState, useEffect, useRef } from 'react'
 import Modal from 'react-modal';
-import { MapContainer, TileLayer, Marker, CircleMarker, Pane, FeatureGroup } from 'react-leaflet'
-import L from 'leaflet'
+import { MapContainer, TileLayer, CircleMarker, Pane, FeatureGroup } from 'react-leaflet'
 import "leaflet.heat"
 import { compareDesc, parse } from 'date-fns'
 
 import HeatMapLayer from "./components/HeatMapLayer"
 import Calendar from "./components/Calendar"
+import Drop from "./components/Drop"
 
-import './Map.css';
+import './styles/Map.css';
 import 'leaflet/dist/leaflet.css'
 
 Modal.setAppElement('#root');
@@ -22,9 +22,11 @@ function Map() {
 
     const [fGeoData, setFGeoData] = useState([]) // selected data
 
-    const [isModalOpen, setModalOpen] = useState(false);
+    const [isModalOpen, setModalOpen] = useState(false)
 
-    const [isCalendarOpen, setCalendarOpen] = useState(false);
+    const [isCalendarOpen, setCalendarOpen] = useState(false)
+
+    const [isDropOpen, setDropOpen] = useState(false)
 
     const [modalDatetime, setModalDatetime] = useState("")
 
@@ -39,7 +41,6 @@ function Map() {
     }, [map])
 
     useEffect(() => {
-        console.log(dateRange)
         filterData(geojsonData, dateRange)
     }, [dateRange])
 
@@ -67,6 +68,9 @@ function Map() {
         .then(function(data) {
             setGeojsonData(data)       
             filterData(data)
+        })
+        .catch(function() {
+            setDropOpen(true)
         })
     }
 
@@ -109,6 +113,17 @@ function Map() {
                 {/* </FeatureGroup> */}
                 </Pane>
 			</MapContainer>
+
+            <Modal
+                closeTimeoutMS={150}
+                isOpen={isDropOpen}
+                onRequestClose={() => setDropOpen(false)}
+                contentLabel="drop"
+                className="calendar-modal"
+                overlayClassName="calendar-modal-overlay"
+            >   
+                <Drop setDropOpen={setDropOpen} setGeojsonData={setGeojsonData} filterData={filterData} />
+            </Modal>
 
             <Modal
                 closeTimeoutMS={150}

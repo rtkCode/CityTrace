@@ -25,3 +25,5 @@ yarn-error.log*
 package-lock.json
 
 public/data/Geo.json
+
+public/data/
