@@ -7,7 +7,7 @@ import { compareDesc, parse } from 'date-fns'
 import HeatMapLayer from "./components/HeatMapLayer"
 import Calendar from "./components/Calendar"
 import Drop from "./components/Drop"
-import { CalendarIcon, UploadIcon, RefreshIcon } from "./components/Icon"
+import { CalendarIcon, UploadIcon, RefreshIcon, MarkerIcon } from "./components/Icon"
 
 import './styles/Map.css';
 import 'leaflet/dist/leaflet.css'
@@ -33,6 +33,8 @@ function Map() {
 
     const [dateRange, setDateRange] = useState(null)
 
+    const [isMarkerShown, setMarkerShown] = useState(false)
+
     const position = [51.509865, -0.118092] // London lat lon
 
     const paneRef = useRef(null)
@@ -46,7 +48,7 @@ function Map() {
     }, [dateRange])
 
     const markerList = fGeoData.map((feature) => {
-        return <CircleMarker key={Math.random()} center={feature.geometry.coordinates} color="transparent" radius="6"
+        return <CircleMarker key={Math.random()} center={feature.geometry.coordinates} color={isMarkerShown?"#ff4d4d":"transparent"} weight="1" radius="5"
             eventHandlers={{
                 click: () => {
                     setModalOpen(true);
@@ -108,12 +110,13 @@ function Map() {
                     <RefreshIcon onClick={reposition} />
                     <CalendarIcon isOpen={isCalendarOpen} onClick={() => {closeAllModal("setCalendarOpen"); setCalendarOpen(!isCalendarOpen)}} />
                     <UploadIcon isOpen={isDropOpen} onClick={() => {closeAllModal("setCalendarOpen"); setDropOpen(!isDropOpen)}} />
+                    <MarkerIcon isMarkerShown={isMarkerShown} onClick={() => setMarkerShown(!isMarkerShown)} />
                 </div>
                 <TileLayer attribution='<a href="https://github.com/rtkCode/CityTrace">CityTrace</a> | &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
                     url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" 
                 />
                 <HeatMapLayer locations={fLocationData} />
-                <Pane ref={paneRef} name="custom">
+                <Pane ref={paneRef} name="markers">
                     { markerList }
                 </Pane>
 			</MapContainer>
