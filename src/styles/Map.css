@@ -80,3 +80,21 @@
 	z-index: 1000;
 	transition: opacity 150ms ease-in-out;
 }
+
+.details {
+	padding: 20px;
+}
+
+.details-title {
+	margin-bottom: 6px;
+	font-size: 26px;
+}
+
+.details-item {
+	color: #4e4e4e;
+	margin-bottom: 6px;
+}
+
+.details-item span {
+	color: #ff4d4d;
+}

@@ -2,7 +2,7 @@ import { useState, useEffect, useRef } from 'react'
 import Modal from 'react-modal';
 import { MapContainer, TileLayer, CircleMarker, Pane } from 'react-leaflet'
 import "leaflet.heat"
-import { compareDesc, parse } from 'date-fns'
+import { compareDesc, parse, format } from 'date-fns'
 
 import HeatMapLayer from "./components/HeatMapLayer"
 import Calendar from "./components/Calendar"
@@ -29,7 +29,9 @@ function Map() {
 
     const [isDropOpen, setDropOpen] = useState(false)
 
-    const [modalDatetime, setModalDatetime] = useState("")
+    const [modalDatetime, setModalDatetime] = useState("1970-01-01 00:00:00")
+
+    const [modalLocation, setModalLocation] = useState("")
 
     const [dateRange, setDateRange] = useState(null)
 
@@ -53,6 +55,7 @@ function Map() {
                 click: () => {
                     setModalOpen(true);
                     setModalDatetime(feature.properties.datetime)
+                    setModalLocation(feature.geometry.coordinates)
                 },
             }}>
 		</CircleMarker>
@@ -112,7 +115,7 @@ function Map() {
                     <UploadIcon isOpen={isDropOpen} onClick={() => {closeAllModal("setCalendarOpen"); setDropOpen(!isDropOpen)}} />
                     <MarkerIcon isMarkerShown={isMarkerShown} onClick={() => setMarkerShown(!isMarkerShown)} />
                 </div>
-                <TileLayer attribution='<a href="https://github.com/rtkCode/CityTrace">CityTrace</a> | &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+                <TileLayer attribution='&copy; <a href="https://github.com/rtkCode/CityTrace">CityTrace</a> | &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
                     url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" 
                 />
                 <HeatMapLayer locations={fLocationData} />
@@ -140,7 +143,18 @@ function Map() {
                 className="common-modal"
                 overlayClassName="common-modal-overlay"
             >
-                <h1 style={{margin: "20px"}}>{ modalDatetime }</h1>
+                <div className="details">
+                    <div className="details-title">
+                        {format(parse(modalDatetime, "yyyy-MM-dd HH:mm:ss", new Date()), 'PPP')}
+                    </div>
+                    <div className="details-item">
+                        You used to visit here at <span>{format(parse(modalDatetime, "yyyy-MM-dd HH:mm:ss", new Date()), 'p')}</span>
+                    </div>
+                    <div className="details-item">More information...</div>
+                    <div className="details-item">LatLon [{modalLocation.toString()}]</div>
+                </div>
+                
+                
             </Modal>
 
             <Modal
