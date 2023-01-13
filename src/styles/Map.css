@@ -85,6 +85,20 @@
 	padding: 20px;
 }
 
+.details-location {
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+	align-items: center;
+}
+
+.details-country {
+	border-radius: 10px;
+	padding: 2px 4px;
+	background: #ff4d4d;
+	color: white;
+}
+
 .details-title {
 	margin-bottom: 6px;
 	font-size: 26px;

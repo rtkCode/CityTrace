@@ -33,6 +33,8 @@ function Map() {
 
     const [modalLocation, setModalLocation] = useState("")
 
+    const [modalLocationName, setModalLocationName] = useState({name: "Loading City", state: "State", country: "XX"})
+
     const [dateRange, setDateRange] = useState(null)
 
     const [isMarkerShown, setMarkerShown] = useState(false)
@@ -56,6 +58,7 @@ function Map() {
                     setModalOpen(true);
                     setModalDatetime(feature.properties.datetime)
                     setModalLocation(feature.geometry.coordinates)
+                    getLocationName(feature.geometry.coordinates[0], feature.geometry.coordinates[1])
                 },
             }}>
 		</CircleMarker>
@@ -94,6 +97,23 @@ function Map() {
             })
             setFLocationData(locations)
         }
+    }
+
+    function getLocationName(lat, lon) {
+        fetch(`http://api.openweathermap.org/geo/1.0/reverse?lat=${lat}&lon=${lon}&limit=1&appid=b9aea1648a32f0de205872f319a2567c`)
+        .then(function(response){
+            return response.json()
+        })
+        .then(function(data) {
+            setModalLocationName({
+                name: data[0].name, 
+                state: data[0].state, 
+                country: data[0].country
+            })
+        })
+        .catch(function() {
+            
+        })
     }
 
     function closeAllModal() {
@@ -144,14 +164,18 @@ function Map() {
                 overlayClassName="common-modal-overlay"
             >
                 <div className="details">
-                    <div className="details-title">
+                    <div className="details-location">
+                        <div className="details-title">
+                            {modalLocationName.name}<small>, {modalLocationName.state}</small>
+                        </div>
+                        <div className="details-country">{modalLocationName.country}</div>
+                    </div>
+                    <div className="details-item">
                         {format(parse(modalDatetime, "yyyy-MM-dd HH:mm:ss", new Date()), 'PPP')}
                     </div>
                     <div className="details-item">
                         You used to visit here at <span>{format(parse(modalDatetime, "yyyy-MM-dd HH:mm:ss", new Date()), 'p')}</span>
                     </div>
-                    <div className="details-item">More information...</div>
-                    <div className="details-item">LatLon [{modalLocation.toString()}]</div>
                 </div>
                 
                 
