@@ -100,7 +100,7 @@ function Map() {
     }
 
     function getLocationName(lat, lon) {
-        fetch(`http://api.openweathermap.org/geo/1.0/reverse?lat=${lat}&lon=${lon}&limit=1&appid=b9aea1648a32f0de205872f319a2567c`)
+        fetch(`https://api.openweathermap.org/geo/1.0/reverse?lat=${lat}&lon=${lon}&limit=1&appid=b9aea1648a32f0de205872f319a2567c`)
         .then(function(response){
             return response.json()
         })
